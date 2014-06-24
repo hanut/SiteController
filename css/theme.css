@@ -1,0 +1,33 @@
+/**
+* Add your custom styles and css here.
+* Minimal bootstrap customizations brought to you by :
+*
+* @author Hanut Singh <hanut@koresoft.in>
+*
+**/
+
+*{
+	transition: all 0.5s;
+	-webkit-transition: all 0.5s;
+	-moz-transition: all 0.5s;
+	-o-transition: all 0.5s;
+}
+body{
+	background: white;
+}
+.container{
+	color: black;
+	min-height: 600px;
+	margin: 0px;
+	width: 100%;
+	text-align: justify;
+}
+hr{
+	border-top: 2px solid #CA1A1A;
+}
+footer{
+	padding: 10px 0px;
+	color: black;
+	font-size: 1em;
+	background: #dfdfdf;
+}
