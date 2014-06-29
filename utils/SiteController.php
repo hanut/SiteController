@@ -122,7 +122,7 @@ class SiteController {
      * 
      * @param String $name The name of the dataset
      */
-    public function load_dataset($name = '') {
+    public function loadDataset($name = '') {
         if ($name == '') {
             die('Error Loading dataset name : ' . $name);
         } else {
