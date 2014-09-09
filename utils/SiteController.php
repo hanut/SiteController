@@ -32,8 +32,8 @@ class SiteController {
 
     //Variable to check local script access for views
     public $local = true;
-    //Setup the base address
-    public $base = "http://localhost/timesoft/";
+    //Setup the base address to point to your actual path (eg. "http://www.example.com" or "localhost/example")
+    public $base = "";
     // public $base = "/";
     //Array containing list of js files to be included
     public $js = array();
