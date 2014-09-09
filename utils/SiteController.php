@@ -26,25 +26,22 @@
  *
  * @author Hanut
  */
-error_reporting(E_ERROR);
+error_reporting(E_ALL);
 
 class SiteController {
 
     //Variable to check local script access for views
     public $local = true;
     //Setup the base address
-    public $base = "";
+    public $base = "http://localhost/timesoft/";
+    // public $base = "/";
     //Array containing list of js files to be included
     public $js = array();
     //Array containing list of css files to be included
     public $css = array();
 
     function __construct($options='') {
-        $this->base = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https://' : 'http://';
-        $this->base .= $_SERVER['SERVER_NAME'] . "/";
-        for ($i = 1, $loc = explode('/', $_SERVER['REQUEST_URI']); $i < count($loc) - 1; $i++) {
-            $this->base .= $loc[$i] . "/";
-        }
+        //Cleaned and configured
     }
 
     /**
@@ -53,8 +50,12 @@ class SiteController {
      * 
      * @param String $script The path to the script file
      */
-    public function addScript($script) {
-        array_push($this->js, $script);
+    public function addScript($script,$remote = false) {
+        if($remote){
+            array_push($this->js, $script);
+        } else{
+            array_push($this->js, $this->base.$script);
+        }
     }
 
     /**
@@ -63,7 +64,7 @@ class SiteController {
      */
     public function includeScripts() {
         foreach ($this->js as $script) {
-            echo "<script src='" . $script . "' type='text/javascript'></script>";
+            echo "<script src='". $script . "' type='text/javascript'></script>";
         }
     }
 
@@ -74,11 +75,11 @@ class SiteController {
      * 
      * @param String $style The path to the script file
      */
-    public function addStyle($style, $media = '') {
+    public function addStyle($style, $media = '',$remote = false) {
         if ($media == '') {
-            array_push($this->css, $style);
+            array_push($this->css, (!$remote ? $this->base : "").$style);
         } else {
-            array_push($this->css, array("name" => $style, "media" => $media));
+            array_push($this->css, array("name" => (!$remote ? $this->base : "").$style, "media" => $media));
         }
     }
 
@@ -90,9 +91,9 @@ class SiteController {
     public function includeStyles() {
         foreach ($this->css as $stylesheet) {
             if (is_array($stylesheet)) {
-                echo "<link rel='stylesheet' href='" . $stylesheet['name'] . "' media='" . $stylesheet['media'] . "'></style>";
+                echo "<link rel='stylesheet' href='".$stylesheet['name'] . "' media='" . $stylesheet['media'] . "'></style>";
             } else {
-                echo "<link rel='stylesheet' href='" . $stylesheet . "'></style>";
+                echo "<link rel='stylesheet' href='".$stylesheet . "'></style>";
             }
         }
     }
@@ -122,7 +123,7 @@ class SiteController {
      * 
      * @param String $name The name of the dataset
      */
-    public function loadDataset($name = '') {
+    public function load_dataset($name = '') {
         if ($name == '') {
             die('Error Loading dataset name : ' . $name);
         } else {
