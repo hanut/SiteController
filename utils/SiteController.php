@@ -32,9 +32,10 @@ class SiteController {
 
     //Variable to check local script access for views
     public $local = true;
-    //Setup the base address to point to your actual path (eg. "http://www.example.com" or "localhost/example")
-    public $base = "";
-    // public $base = "/";
+    //Setup the base address for local development
+    public $base = "localhost/";
+    //Uncomment the line below and fill in the absolute address of SiteController
+    // public $base = "LIVE WEB ADDRESS";
     //Array containing list of js files to be included
     public $js = array();
     //Array containing list of css files to be included
@@ -123,7 +124,7 @@ class SiteController {
      * 
      * @param String $name The name of the dataset
      */
-    public function load_dataset($name = '') {
+    public function loadDataset($name = '') {
         if ($name == '') {
             die('Error Loading dataset name : ' . $name);
         } else {
