@@ -32,10 +32,9 @@ class SiteController {
 
     //Variable to check local script access for views
     public $local = true;
-    //Setup the base address for local development
-    public $base = "localhost/";
-    //Uncomment the line below and fill in the absolute address of SiteController
-    // public $base = "LIVE WEB ADDRESS";
+    //Setup the base address
+    public $base = "";
+    // public $base = "http://www.brentwoodhotelsandresorts.com/";
     //Array containing list of js files to be included
     public $js = array();
     //Array containing list of css files to be included
@@ -51,12 +50,8 @@ class SiteController {
      * 
      * @param String $script The path to the script file
      */
-    public function addScript($script,$remote = false) {
-        if($remote){
-            array_push($this->js, $script);
-        } else{
-            array_push($this->js, $this->base.$script);
-        }
+    public function addScript($script) {
+        array_push($this->js, $script);
     }
 
     /**
@@ -65,7 +60,7 @@ class SiteController {
      */
     public function includeScripts() {
         foreach ($this->js as $script) {
-            echo "<script src='". $script . "' type='text/javascript'></script>";
+            echo "<script src='".$this->base . $script . "' type='text/javascript'></script>";
         }
     }
 
@@ -76,11 +71,11 @@ class SiteController {
      * 
      * @param String $style The path to the script file
      */
-    public function addStyle($style, $media = '',$remote = false) {
+    public function addStyle($style, $media = '') {
         if ($media == '') {
-            array_push($this->css, (!$remote ? $this->base : "").$style);
+            array_push($this->css, $style);
         } else {
-            array_push($this->css, array("name" => (!$remote ? $this->base : "").$style, "media" => $media));
+            array_push($this->css, array("name" => $style, "media" => $media));
         }
     }
 
@@ -92,9 +87,9 @@ class SiteController {
     public function includeStyles() {
         foreach ($this->css as $stylesheet) {
             if (is_array($stylesheet)) {
-                echo "<link rel='stylesheet' href='".$stylesheet['name'] . "' media='" . $stylesheet['media'] . "'></style>";
+                echo "<link rel='stylesheet' href='".$this->base. $stylesheet['name'] . "' media='" . $stylesheet['media'] . "'></style>";
             } else {
-                echo "<link rel='stylesheet' href='".$stylesheet . "'></style>";
+                echo "<link rel='stylesheet' href='".$this->base . $stylesheet . "'></style>";
             }
         }
     }
@@ -124,7 +119,7 @@ class SiteController {
      * 
      * @param String $name The name of the dataset
      */
-    public function loadDataset($name = '') {
+    public function load_dataset($name = '') {
         if ($name == '') {
             die('Error Loading dataset name : ' . $name);
         } else {
