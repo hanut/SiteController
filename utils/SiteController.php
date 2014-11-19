@@ -42,7 +42,8 @@ class SiteController {
 
     function __construct($options=array()) {
         if(!isset($this->base) || $this->base==""){
-            $this->base = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http'."://".$_SERVER['HTTP_HOST'].$_SERVER["REQUEST_URI"];
+            $scFilePath = explode(DS,__file__);
+            $this->base = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http'."://".$_SERVER['HTTP_HOST']."/".$scFilePath[count($scFilePath)-3]."/";
         }
         //Set each option value for sitecontroller
         foreach($options as $option=>$value){
