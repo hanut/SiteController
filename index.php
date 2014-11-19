@@ -2,8 +2,8 @@
 require_once './utils/SiteController.php';
 $controller = new SiteController();
 
-$controller->addScript('//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js');
-$controller->addScript('http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js');
+$controller->addScript('//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js',true);
+$controller->addScript('http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js',true);
 $controller->addScript('js/bootstrap.min.js');
 $controller->addScript('js/modernizr.min.js');
 ?>

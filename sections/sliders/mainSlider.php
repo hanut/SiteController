@@ -1,4 +1,4 @@
-<section class="slider clearfix">
+section class="slider clearfix">
     <div id="sequence">
         <ul class="sequence-canvas">
             <li>

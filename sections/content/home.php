@@ -25,21 +25,21 @@
             <h3>Features</h3>
             <ul>
             <?php
-                foreach($this->load_dataset('data') as $val){
+                foreach($this->loadDataset('data') as $val){
                     echo $val;
                 }
             ?>
             </ul>
             <?php
-                $this->print_d("A simple method for pretty printing arrays :) in case you debug that way.");
-                $this->print_d($_SERVER);
+                debug("A simple method for pretty printing arrays :) in case you debug that way.");
+                debug($_SERVER);
             ?>
         </div>
     </div>
     <hr/>
     <div class="row">
     <div class="col-xs-8 col-xs-offset-2">
-            <img src="<?php echo $this->base;?>/images/cheers.jpg" title='Cheers!' alt="Cheers!" width="100%"/>
+            <img src="<?php echo $this->base;?>images/cheers.jpg" title='Cheers!' alt="Cheers!" width="100%"/>
         </div>
     </div>
 </div>

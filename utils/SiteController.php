@@ -26,22 +26,28 @@
  *
  * @author Hanut
  */
+
+require_once('common.php');
+
 error_reporting(E_ALL);
 
 class SiteController {
 
-    //Variable to check local script access for views
-    public $local = true;
     //Setup the base address
     public $base = "";
-    // public $base = "http://www.brentwoodhotelsandresorts.com/";
     //Array containing list of js files to be included
     public $js = array();
     //Array containing list of css files to be included
     public $css = array();
 
-    function __construct($options='') {
-        //Cleaned and configured
+    function __construct($options=array()) {
+        if(!isset($this->base) || $this->base==""){
+            $this->base = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http'."://".$_SERVER['HTTP_HOST'].$_SERVER["REQUEST_URI"];
+        }
+        //Set each option value for sitecontroller
+        foreach($options as $option=>$value){
+            $this->$$option = $value;
+        }
     }
 
     /**
@@ -50,8 +56,12 @@ class SiteController {
      * 
      * @param String $script The path to the script file
      */
-    public function addScript($script) {
-        array_push($this->js, $script);
+    public function addScript($script,$remote=false) {
+        if(!$remote){
+            array_push($this->js, $this->base.$script);
+        }else{
+            array_push($this->js, $script);
+        }
     }
 
     /**
@@ -60,7 +70,7 @@ class SiteController {
      */
     public function includeScripts() {
         foreach ($this->js as $script) {
-            echo "<script src='".$this->base . $script . "' type='text/javascript'></script>";
+            echo "<script src='" . $script . "' type='text/javascript'></script>";
         }
     }
 
@@ -70,12 +80,14 @@ class SiteController {
      * If media property has to be set, add the optional $media variable.
      * 
      * @param String $style The path to the script file
+     * @param String $media The media type setting
+     * @param String $remote Defaults to false. Set to true if you are passing absolute paths or remote urls
      */
-    public function addStyle($style, $media = '') {
+    public function addStyle($style, $media = '',$remote=false) {
         if ($media == '') {
-            array_push($this->css, $style);
+            array_push($this->css, ($remote) ? $style : $this->base.$style);
         } else {
-            array_push($this->css, array("name" => $style, "media" => $media));
+            array_push($this->css, array("name" => ($remote) ? $style : $this->base.$style, "media" => $media));
         }
     }
 
@@ -87,9 +99,9 @@ class SiteController {
     public function includeStyles() {
         foreach ($this->css as $stylesheet) {
             if (is_array($stylesheet)) {
-                echo "<link rel='stylesheet' href='".$this->base. $stylesheet['name'] . "' media='" . $stylesheet['media'] . "'></style>";
+                echo "<link rel='stylesheet' href='" . $stylesheet['name'] . "' media='" . $stylesheet['media'] . "'></style>";
             } else {
-                echo "<link rel='stylesheet' href='".$this->base . $stylesheet . "'></style>";
+                echo "<link rel='stylesheet' href='" . $stylesheet . "'></style>";
             }
         }
     }
@@ -119,7 +131,7 @@ class SiteController {
      * 
      * @param String $name The name of the dataset
      */
-    public function load_dataset($name = '') {
+    public function loadDataset($name = '') {
         if ($name == '') {
             die('Error Loading dataset name : ' . $name);
         } else {
@@ -127,19 +139,4 @@ class SiteController {
             return $$name;
         }
     }
-
-    /**
-     * Outputs the variable within <pre></pre> tags whether object/array/string
-     * Simple helper method.
-     * 
-     * @param Mixed $var variable to be pretty printed
-     */
-    public function print_d($var) {
-        if (is_array($var) || is_object($var)) {
-            echo "<pre>" . print_r($var, true) . "</pre>";
-        } else {
-            echo "<pre>" . $var . "</pre>";
-        }
-    }
-
 }
