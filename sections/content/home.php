@@ -26,7 +26,7 @@
             <ul>
             <?php
                 foreach($this->loadDataset('data') as $val){
-                    echo $val;
+                    print $val;
                 }
             ?>
             </ul>
@@ -34,6 +34,15 @@
                 debug("A simple method for pretty printing arrays :) in case you debug that way.");
                 debug($_SERVER);
             ?>
+        </div>
+    </div>
+    <hr/>
+    <div class="row">
+        <div class="col-xs-10 col-xs-offset-1">
+        <h3>Handled errors in dev environment</h3>
+        <?php $this->loadDataset('doodad'); ?>
+        <?php $this->loadSection('doodad'); ?>
+        <?php $this->loadSection('../dbooie',null,false); ?>
         </div>
     </div>
     <hr/>

@@ -115,14 +115,22 @@ class SiteController {
      * @param Boolean $default If set to false, it uses the section string as an absolute path.
      */
     public function loadSection($section, $values = array(), $default = true) {
-        try {
-            if ($default == TRUE) {
+        if ($default == TRUE) {
+            if(file_exists('./sections/' . $section . ".php")){
                 require_once './sections/' . $section . ".php";
-            } else {
-                require_once './' . $section . ".php";
+            }else if(error_reporting()==E_ALL){
+                    debug("Section not found.Please ensure <strong style='color:#955;font-size: 1.1em;'>sections/".$section.".php</strong> exists.");
+                    $e = new invalidArgumentException();
+                    debug($e->getTraceAsString());
             }
-        } catch (Exception $ex) {
-            echo "<pre>" . print_r($ex, true) . "</pre>";
+        } else {
+            if(file_exists($section . ".php")){
+                require_once $section . ".php";
+            }else if(error_reporting()==E_ALL){
+                debug("Section not found.Please ensure <strong style='color:#955;font-size: 1.1em;'>".$section.".php</strong> exists.");
+                $e = new invalidArgumentException();
+                debug($e->getTraceAsString());
+            }
         }
     }
 
@@ -133,11 +141,13 @@ class SiteController {
      * @param String $name The name of the dataset
      */
     public function loadDataset($name = '') {
-        if ($name == '') {
-            die('Error Loading dataset name : ' . $name);
-        } else {
+        if(file_exists('./datasets/' . $name . ".php")){
             require_once './datasets/' . $name . ".php";
             return $$name;
+        }else if(error_reporting()==E_ALL){
+            debug("Dataset not found.Please ensure <strong style='color:#955;font-size: 1.1em;'>datasets/".$name.".php</strong> exists.");
+            $e = new invalidArgumentException();
+            debug($e->getTraceAsString());
         }
     }
 }
